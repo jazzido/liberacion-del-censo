@@ -30,4 +30,7 @@ TABLE VIVIENDAV01
        OUTPUTFILE DBF 'C:\VIVIENDA-V01.dbf'
        OVERWRITE
 
+.....
 ```
+
+Las consultas generadas deben ser copiadas al *Procesador Estadístico (R+Process)* de REDATAM. Una vez ejecutadas, generarán archivos DBF (uno por cada variable definida en `variables.ini`, desagregado al nivel de *radio censal*) en el directorio raíz del disco `C:`.

@@ -1,7 +1,7 @@
 # coding: utf-8
-import ConfigParser, sys
+import parse_variables
 
-QUERY_TEMPLATE = """
+QUERY_TEMPLATE = u"""
 // %(label)s
 TABLE %(tablename)s
        AS AREALIST
@@ -10,40 +10,13 @@ TABLE %(tablename)s
        OVERWRITE
 """
 
-
-def config_section_map(section, config):
-    dict1 = {}
-    options = config.options(section)
-    for option in options:
-        try:
-            dict1[option] = config.get(section, option)
-        except:
-            dict1[option] = None
-    return dict1
-
-def variable_definition(variable_name, config):
-    rv = config_section_map(variable_name, config)
-    if 'valuelabels' not in rv:
-        print >>sys.stderr, "---- %s " % rv['name']
-        return None
-    rv['value_labels_list'] = []
-    for i in range(1, int(rv['valuelabels']) + 1):
-        rv['value_labels_list'].append(rv['vl' + str(i)])
-    return rv
-
-
-def parse_ini(fname):
-    config = ConfigParser.ConfigParser()
-    config.read(fname)
-    return config
-
 def generate_query_for_variable(variable_name, config):
-    vdef = variable_definition(variable_name, config)
+    vdef = parse_variables.variable_definition(variable_name, config)
     if vdef is None:
         return None
-    q = QUERY_TEMPLATE % { 'tablename': vdef['entname'] + vdef['name'] ,
-                           'variable': vdef['entname'] + '.' + vdef['name'],
-                           'outfile': vdef['entname'] + '-' + vdef['name'],
+    q = QUERY_TEMPLATE % { 'tablename': (vdef['entname'] + vdef['name']).decode('windows-1252'),
+                           'variable': (vdef['entname'] + '.' + vdef['name']).decode('windows-1252'),
+                           'outfile': (vdef['entname'] + '-' + vdef['name']).decode('windows-1252'),
                            'label': vdef['label'].decode('windows-1252')  }
     return q
 
@@ -54,8 +27,8 @@ def generate_queries(config):
         # print config_section_map(variable, config)
         q = generate_query_for_variable(variable, config)
         if q is not None:
-            print q
+            print q.encode('utf-8')
 
 if __name__ == '__main__':
-    config = parse_ini('variables.ini')
+    config = parse_variables.parse_ini('variables.ini')
     generate_queries(config)
