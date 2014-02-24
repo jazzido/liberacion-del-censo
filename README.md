@@ -40,6 +40,8 @@ Las consultas generadas deben ser copiadas al *Procesador Estadístico (R+Proces
 
 ### Convertir DBFs a CSV
 
+Los DBFs generados en el paso anterior, deben ser copiados al directorio `dbfs`.
+
 ```
 python dbf_csv.py
 ```
