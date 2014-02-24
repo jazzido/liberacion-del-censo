@@ -1,11 +1,14 @@
 liberacion-del-censo
 ====================
 
-Convertir los datos del Censo 2010 a un formato abierto
+Conjunto de scripts para convertir a CSV los datos del Censo Nacional de Población, Hogares y Viviendas 2010 publicados por INDEC mediante el sistema [REDATAM](http://www.eclac.cl/redatam/default.asp?idioma=IN).
+
+  - `generate-redatam-queries.py`: Genera consultas REDATAM para exportar a formato DBF las variables definidas en `variables.ini`.
+  - `dbf_csv.py`: Convierte los DBFs generados por REDATAM a formato CSV.
 
 ## Uso
 
-Para generar consultas REDATAM:
+### Generar consultas REDATAM:
 
 ```
 python generate-redatam-queries.py
@@ -35,10 +38,16 @@ TABLE VIVIENDAV01
 
 Las consultas generadas deben ser copiadas al *Procesador Estadístico (R+Process)* de REDATAM. Una vez ejecutadas, generarán archivos DBF (uno por cada variable definida en `variables.ini`, desagregado al nivel de *radio censal*) en el directorio raíz del disco `C:`.
 
+### Convertir DBFs a CSV
+
+```
+python dbf_csv.py
+```
+
 ## Variables extraídas
 
 Variable | Descripcion | Alias | Grupo
---- | --- | --- | --- 
+--- | --- | --- | ---
 VIVIENDA.INCALCONS | Calidad constructiva de la vivienda |  |
 VIVIENDA.INCALSERV | Calidad de Conexiones a Servicios Básicos |  |
 VIVIENDA.INMAT | Calidad de los materiales |  |
@@ -84,4 +93,3 @@ PERSONA.P08 | Condición de asistencia escolar |  |
 PERSONA.P09 | Nivel educativo que cursa o cursó |  |
 PERSONA.P10 | Completó el nivel |  |
 PERSONA.P12 | Utiliza computadora | PC | TICS
-
